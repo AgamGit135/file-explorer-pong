@@ -1,12 +1,10 @@
 from PIL import Image
 import os
-import paddle
 
-class grid:
+class Grid:
     BLACK = (0,0,0)
     WHITE = (255,255,255)
 
-    # should paddle be a class???
     def __init__(self,width,height,imgWidth,imgHeight,paddle):
         self.width = width
         self.height = height
@@ -31,6 +29,6 @@ class grid:
         img.save(os.path.join("pong",name))
 
     def inPaddle(self,row, column):
-        inRow = row > paddle.start and row < paddle.end
+        inRow = row > self.paddle.start and row < self.paddle.end
         inColumn = column == 0 or column == self.width - 1
         return inColumn and inRow

@@ -1,9 +1,15 @@
 from PIL import Image
-import funcs
+import Grid
+import Paddle
 
-height = 20
-width = 20
-black = 10
-white = width*height - black
+height = 5
+width = 10
+imgWidth = 800
+imgHeight = 800
+paddleStart = 1
+paddleLength = height - 2*paddleStart
 
-funcs.init(width,height,600,600)
+paddle = Paddle.Paddle(paddleLength,paddleStart)
+grid = Grid.Grid(width, height, imgWidth, imgHeight, paddle)
+
+grid.makeGrid()
