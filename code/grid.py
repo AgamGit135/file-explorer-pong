@@ -1,16 +1,36 @@
 from PIL import Image
 import os
+import paddle
 
-def init(width, height, imgWidth,imgHeight):
-    for i in range(height):
-        for j in range(1,width + 1):
-            n = i*width + j-1
-            makeWhite(imgWidth,imgHeight,n)
+class grid:
+    BLACK = (0,0,0)
+    WHITE = (255,255,255)
 
+    # should paddle be a class???
+    def __init__(self,width,height,imgWidth,imgHeight,paddle):
+        self.width = width
+        self.height = height
+        self.imgWidth = imgWidth
+        self.imgHeight = imgHeight
+        self.paddle = paddle
 
-def makeWhite(imgWidth,imgHeight,n):
-    img = Image.new("RGB",(imgWidth,imgHeight),(255,255,255))
-    # there must be a better way to do this
-    name = "img" + str(n) + ".jpg"
-    # save to relative path
-    img.save(os.path.join("pong",name))
+    def makeGrid(self):
+        for i in range(self.height):
+            for j in range(self.width):
+                n = i*self.width + j
+                if self.inPaddle(i,j):
+                    self.makeImg(n,self.BLACK)
+                else:
+                    self.makeImg(n,self.WHITE)
+
+    def makeImg(self,n,color):
+        img = Image.new("RGB",(self.imgWidth,self.imgHeight),color)
+        # there must be a better way to do this
+        name = "img" + str(n) + ".jpg"
+        # save to relative path
+        img.save(os.path.join("pong",name))
+
+    def inPaddle(self,row, column):
+        inRow = row > paddle.start and row < paddle.end
+        inColumn = column == 0 or column == self.width - 1
+        return inColumn and inRow
