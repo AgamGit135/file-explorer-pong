@@ -24,7 +24,7 @@ class Grid:
     def makeImg(self,n,color):
         img = Image.new("RGB",(self.imgWidth,self.imgHeight),color)
         # there must be a better way to do this
-        name = "img" + str(n) + ".jpg"
+        name = f"img{str(n)}.png"
         # save to relative path
         img.save(os.path.join("pong",name))
 
@@ -32,3 +32,7 @@ class Grid:
         inRow = row > self.paddle.start and row < self.paddle.end
         inColumn = column == 0 or column == self.width - 1
         return inColumn and inRow
+    
+    def deleteGrid(self):
+        for file in os.listdir("pong"):
+            os.remove(f"pong/{file}")
